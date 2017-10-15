@@ -15,4 +15,3 @@ echo exe file create on path /relese.
 gitScript.bat
 echo New version push on git
 pause 
-%
