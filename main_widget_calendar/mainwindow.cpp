@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+//#include "calendarwidget.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QFileDialog>
@@ -10,7 +11,6 @@
 
 
 #define VOCATION_DAYS 30
-//#define VERSION "Version 1.0.0"
 
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent)
@@ -30,7 +30,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(monthComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeMonth()));
     connect(yearComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeYear()));
     connect(from,SIGNAL(dateChanged(QDate)),this,SLOT(changeVocation()));
-
+    connect(graphicComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeGraphic()));
+    connect(orientComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeOrientation()));
+    connect(changeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeChange()));
 }
 
 void MainWindow::createWindow()
@@ -62,7 +64,6 @@ void MainWindow::createWindow()
     botton_layout->addWidget(print);
 
     fioGroupBox = new QGroupBox(tr("ФИО"));
-    //fioGroupBox->setFixedSize(26,26);
 
     fioLineEdit = new QLineEdit;
     fioLineEdit->setFixedSize(300, 26);
@@ -175,7 +176,20 @@ void MainWindow::createWindow()
     main_layout->addWidget(vocationGroupBox);
     main_layout->addLayout(view_layout);
 
+    calendar =  new calendarwidget();
+
     setLayout(main_layout);
+}
+
+void MainWindow::getVersion()
+{
+    QFile fileVersion("version.txt");
+    if (!fileVersion.open(QFile::ReadOnly | QFile::Text))
+    {
+        return;
+    }
+    QTextStream in(&fileVersion);
+    version = in.readLine();
 }
 
 void MainWindow::addData()
@@ -232,14 +246,14 @@ void MainWindow::addData()
     }
 
     int year = choosen_year;
-    for(int i=0; i<10; i++)
+    for(int i = 0; i < 10; i++)
     {
         yearComboBox->insertItem(i,QString::number(year));
         year++;
     }
 
     int it = 1;
-    for(int i=0; i<MAX_DAY; i++)
+    for(int i = 0; i < MAX_DAY; i++)
     {
         dayComboBox->insertItem(i,QString::number(it));
         it++;
@@ -249,7 +263,7 @@ void MainWindow::addData()
     changeComboBox->insertItem(0, "1");
     changeComboBox->insertItem(1,"2");
     graphicComboBox->insertItem(0, "1/1");
-    graphicComboBox->insertItem(1, "1/3");
+    graphicComboBox->insertItem(1, "1/2");;
     graphicComboBox->insertItem(2, "2/1");
     graphicComboBox->insertItem(3, "2/2");
     orientComboBox->insertItem(0, "Альбомная");
@@ -257,7 +271,6 @@ void MainWindow::addData()
 
     from->setDate(data);
     to->setDate(countVocation());
-
 }
 
 QDate MainWindow::countVocation()
@@ -307,6 +320,71 @@ QDate MainWindow::countVocation()
     return new_data;
 }
 
+void MainWindow::changeGraphic()
+{
+    int index = graphicComboBox->currentIndex();
+    switch(index)
+    {
+    case 0:
+        calendar->shift.work=1;
+        calendar->shift.free=1;
+        calendar->drowCalendar(choosen_year, choosen_month);
+        break;
+    case 1:
+        calendar->shift.work=1;
+        calendar->shift.free=2;
+        calendar->drowCalendar(choosen_year, choosen_month);
+        break;
+    case 2:
+        calendar->shift.work=2;
+        calendar->shift.free=1;
+        calendar->drowCalendar(choosen_year, choosen_month);
+        break;
+    case 3:
+        calendar->shift.work=2;
+        calendar->shift.free=2;
+        calendar->drowCalendar(choosen_year, choosen_month);
+        break;
+    default:
+        break;
+    }
+}
+
+void MainWindow::changeOrientation()
+{
+    int index = orientComboBox->currentIndex();
+    switch(index)
+    {
+    case 0:
+        calendar->clear_widget();
+        calendar->orient_album();
+        break;
+    case 1:
+        calendar->clear_widget();
+        calendar->orient_port();
+        break;
+    default:
+        break;
+    }
+}
+
+void MainWindow::changeChange()
+{
+    int index = changeComboBox->currentIndex();
+    switch (index)
+    {
+    case 0:
+        calendar->change=0;
+        calendar->drowCalendar(choosen_year, choosen_month);
+        break;
+    case 1:
+        calendar->change = calendar->shift.free;
+        calendar->drowCalendar(choosen_year, choosen_month);
+    default:
+        break;
+    }
+}
+
 void MainWindow::changeVocation()
 {
     to->setDate(countVocation());
@@ -335,7 +413,6 @@ void MainWindow::open_Data()
         QDate data_to(in.readLine().toInt(), in.readLine().toInt(), in.readLine().toInt());
         to->setDate(data_to);
     }
-
     fileIn.close();
 }
 
@@ -365,16 +442,16 @@ void MainWindow::save_Calendar()
     stream << to->date().month() << endl;
     stream << to->date().year() << endl;
 
-
     fileOut.close();
 }
 
 void MainWindow::print_Calendar()
 {
-    /*QPrinter printer;
+    QPixmap pic = calendar->get_print();
+    QPrinter printer;
     QPrintDialog printDialog(&printer, this);
 
-    if (printDialog.exec())
+    /*if (printDialog.exec())
     {
       //QTextDocument textDocument;
       //textDocument.setHtml(html);
@@ -388,30 +465,16 @@ void MainWindow::print_Calendar()
 void MainWindow::show_Calendar()
 {
 
-
-}
-
-void MainWindow::getVersion()
-{
-    QFile fileVer("version.txt");
-    if (!fileVer.open(QFile::ReadOnly | QFile::Text))
-    {
-        qDebug() << "File with version not open";
-        return;
-    }
-    else
-    {
-        QTextStream in(&fileVer);
-        version = in.readLine();
-    }
+    calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
+    calendar->show();
+    calendar->update();
 }
 
 void MainWindow::on_about()
 {
-
     QMessageBox *aboutMsgBox = new QMessageBox();
     aboutMsgBox->setStyleSheet("background-color: #E9EDED");
-    aboutMsgBox->setText("Version 1.0." + version);
+    aboutMsgBox->setText("Version 1." + version);
     aboutMsgBox->setWindowTitle("About");
     aboutMsgBox->setFixedSize(200,100);
     aboutMsgBox->setIcon(QMessageBox::Information);
@@ -429,7 +492,7 @@ void MainWindow::changeMonth()
     switch (choosen_month)
     {
     case 2:
-        if(((y%4==0)&(y%100!=0))||(y%400==0))
+        if(((y % 4 == 0)&(y % 100 != 0))||(y % 400 == 0))
         {
             MAX_DAY = 29;
         }
@@ -472,11 +535,11 @@ void MainWindow::changeYear()
 {
     QString tmpYear = yearComboBox->currentText();
     choosen_year = tmpYear.toInt();
-    int m = monthComboBox->currentIndex()+1;
+    int m = monthComboBox->currentIndex() + 1;
     int MAX_DAY;
     if(m == 2)
     {
-        if(((choosen_year%4==0)&(choosen_year%100!=0))||(choosen_year%400==0))
+        if(((choosen_year % 4 == 0)&(choosen_year % 100 != 0))||(choosen_year % 400 == 0))
         {
             MAX_DAY = 29;
         }
@@ -488,16 +551,14 @@ void MainWindow::changeYear()
         dayComboBox->setMaxCount(MAX_DAY);
         if (maxCount < MAX_DAY)
         {
-            int count = maxCount+1;
-            for(int i = maxCount; i<MAX_DAY; i++)
+            int count = maxCount + 1;
+            for(int i = maxCount; i < MAX_DAY; i++)
             {
                 dayComboBox->insertItem(i,QString::number(count));
                 count++;
             }
         }
     }
-
-
 }
 
 MainWindow::~MainWindow()
