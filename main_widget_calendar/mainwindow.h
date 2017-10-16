@@ -9,6 +9,7 @@
 #include <QGroupBox>
 #include <QDate>
 #include <QLineEdit>
+#include "calendarwidget.h"
 
 
 class MainWindow : public QWidget
@@ -26,7 +27,10 @@ private slots:
     void show_Calendar();
     void changeMonth();
     void changeYear();
+    void changeGraphic();
+    void changeOrientation();
     void changeVocation();
+    void changeChange();
     void on_about();
 
 
@@ -35,6 +39,8 @@ private:
     void addData();
     QDate countVocation();
     void getVersion();
+
+    calendarwidget *calendar;
 
     QString currentYear;
 
@@ -61,7 +67,6 @@ private:
     QComboBox *orientComboBox;
     QComboBox *graphicComboBox;
 
-
     QGroupBox *vocationGroupBox;
     QLabel *from_label;
     QLabel *to_label;
@@ -72,8 +77,6 @@ private:
     int choosen_day;
     int choosen_month;
     int choosen_year;
-
-
 };
 
 #endif // MAINWINDOW_H
