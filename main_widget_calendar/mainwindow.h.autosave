@@ -8,8 +8,8 @@
 #include <QDateEdit>
 #include <QGroupBox>
 #include <QDate>
-#include <QLineEdit>
-#include "calendarwidget.h"
+
+#include <QMessageBox>
 
 
 class MainWindow : public QWidget
@@ -25,23 +25,17 @@ private slots:
     void print_Calendar();
     void open_Data();
     void show_Calendar();
-    void changeDay();
     void changeMonth();
     void changeYear();
-    void changeGraphic();
-    void changeOrientation();
     void changeVocation();
-    void changeChange();
     void on_about();
 
 
 private:
     void createWindow();
     void addData();
-    QDate countVocation();
     void getVersion();
-
-    calendarwidget *calendar;
+    QDate countVocation();
 
     QString currentYear;
 
@@ -51,8 +45,7 @@ private:
     QPushButton *view;
     QPushButton *about;
 
-    QGroupBox *fioGroupBox;
-    QLineEdit *fioLineEdit;
+   // QMessageBox* aboutWidget;
 
     QLabel *day_label;
     QLabel *month_label;
@@ -63,9 +56,10 @@ private:
 
     QLabel *change_label;
     QLabel *orient_label;
-    QLabel *graphic_label;
     QComboBox *changeComboBox;
     QComboBox *orientComboBox;
+
+    QGroupBox *graphicGroupBox;
     QComboBox *graphicComboBox;
 
     QGroupBox *vocationGroupBox;
@@ -78,6 +72,8 @@ private:
     int choosen_day;
     int choosen_month;
     int choosen_year;
+
+
 };
 
 #endif // MAINWINDOW_H

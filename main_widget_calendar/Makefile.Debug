@@ -251,6 +251,7 @@ debug/moc_mainwindow.cpp: D:/qt/5.6/mingw49_32/include/QtWidgets/QMainWindow \
 		D:/qt/5.6/mingw49_32/include/QtCore/qitemselectionmodel.h \
 		D:/qt/5.6/mingw49_32/include/QtGui/QTextCharFormat \
 		D:/qt/5.6/mingw49_32/include/QtGui/QWheelEvent \
+		D:/qt/5.6/mingw49_32/include/QtCore/QMap \
 		mainwindow.h
 	D:\qt\5.6\mingw49_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -ID:/qt/5.6/mingw49_32/mkspecs/win32-g++ -IC:/Users/Anton/Desktop/calendar/Calendarlo/main_widget_calendar -ID:/qt/5.6/mingw49_32/include -ID:/qt/5.6/mingw49_32/include/QtPrintSupport -ID:/qt/5.6/mingw49_32/include/QtWidgets -ID:/qt/5.6/mingw49_32/include/QtGui -ID:/qt/5.6/mingw49_32/include/QtANGLE -ID:/qt/5.6/mingw49_32/include/QtCore mainwindow.h -o debug\moc_mainwindow.cpp
 
@@ -426,6 +427,7 @@ debug/main.o: main.cpp mainwindow.h \
 		D:/qt/5.6/mingw49_32/include/QtCore/qitemselectionmodel.h \
 		D:/qt/5.6/mingw49_32/include/QtGui/QTextCharFormat \
 		D:/qt/5.6/mingw49_32/include/QtGui/QWheelEvent \
+		D:/qt/5.6/mingw49_32/include/QtCore/QMap \
 		D:/qt/5.6/mingw49_32/include/QtWidgets/QApplication \
 		D:/qt/5.6/mingw49_32/include/QtWidgets/qapplication.h \
 		D:/qt/5.6/mingw49_32/include/QtCore/qcoreapplication.h \
@@ -591,6 +593,7 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		D:/qt/5.6/mingw49_32/include/QtCore/qitemselectionmodel.h \
 		D:/qt/5.6/mingw49_32/include/QtGui/QTextCharFormat \
 		D:/qt/5.6/mingw49_32/include/QtGui/QWheelEvent \
+		D:/qt/5.6/mingw49_32/include/QtCore/QMap \
 		D:/qt/5.6/mingw49_32/include/QtWidgets/QHBoxLayout \
 		D:/qt/5.6/mingw49_32/include/QtWidgets/QVBoxLayout \
 		D:/qt/5.6/mingw49_32/include/QtWidgets/QFileDialog \
@@ -610,7 +613,13 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		D:/qt/5.6/mingw49_32/include/QtPrintSupport/qtprintsupportglobal.h \
 		D:/qt/5.6/mingw49_32/include/QtPrintSupport/QPrintDialog \
 		D:/qt/5.6/mingw49_32/include/QtPrintSupport/qprintdialog.h \
-		D:/qt/5.6/mingw49_32/include/QtPrintSupport/qabstractprintdialog.h
+		D:/qt/5.6/mingw49_32/include/QtPrintSupport/qabstractprintdialog.h \
+		D:/qt/5.6/mingw49_32/include/QtPrintSupport/QPrinterInfo \
+		D:/qt/5.6/mingw49_32/include/QtPrintSupport/qprinterinfo.h \
+		D:/qt/5.6/mingw49_32/include/QtCore/QList \
+		D:/qt/5.6/mingw49_32/include/QtCore/QPair \
+		D:/qt/5.6/mingw49_32/include/QtGui/QPainter \
+		D:/qt/5.6/mingw49_32/include/QtGui/qpainter.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o mainwindow.cpp
 
 debug/calendarwidget.o: calendarwidget.cpp calendarwidget.h \
@@ -753,6 +762,8 @@ debug/calendarwidget.o: calendarwidget.cpp calendarwidget.h \
 		D:/qt/5.6/mingw49_32/include/QtGui/qpen.h \
 		D:/qt/5.6/mingw49_32/include/QtGui/qtextoption.h \
 		D:/qt/5.6/mingw49_32/include/QtGui/QWheelEvent \
+		D:/qt/5.6/mingw49_32/include/QtCore/QMap \
+		D:/qt/5.6/mingw49_32/include/QtCore/QDate \
 		D:/qt/5.6/mingw49_32/include/QtWidgets/QHBoxLayout \
 		D:/qt/5.6/mingw49_32/include/QtWidgets/QVBoxLayout \
 		D:/qt/5.6/mingw49_32/include/QtCore/QDebug

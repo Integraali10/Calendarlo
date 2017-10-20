@@ -3,13 +3,13 @@
 #include <QVBoxLayout>
 #include <QDebug>
 
-
 calendarwidget::calendarwidget(QWidget *parent) : QWidget(parent)
 {
-    qDebug() << "constructor";
+    //qDebug() << "constructor";
     setWindowTitle("Work Timetable");
+    //
     addData();
-    paint_calendar();
+    //paint_calendar();
 }
 
 void calendarwidget::addData()
@@ -23,8 +23,6 @@ void calendarwidget::addData()
 
     QHBoxLayout *fio_layout = new QHBoxLayout;
     fio_layout->addWidget(label_fio);
-    fio_layout->addStretch();
-    fio_layout->addStretch();
 
     QHBoxLayout *year_layout = new QHBoxLayout;
     year_layout->addStretch();
@@ -36,42 +34,123 @@ void calendarwidget::addData()
     main_layout->addLayout(year_layout);
     main_layout->addLayout(gridLayout);
 
+    nameOfMonth.insert(1, "Январь");
+    nameOfMonth.insert(2, "Февраль");
+    nameOfMonth.insert(3, "Март");
+    nameOfMonth.insert(4, "Апрель");
+    nameOfMonth.insert(5, "Май");
+    nameOfMonth.insert(6, "Июнь");
+    nameOfMonth.insert(7, "Июль");
+    nameOfMonth.insert(8, "Август");
+    nameOfMonth.insert(9, "Сентябрь");
+    nameOfMonth.insert(10, "Октябрь");
+    nameOfMonth.insert(11, "Ноябрь");
+    nameOfMonth.insert(12, "Декабрь");
+
+    holidays.append({0, 1, 2, 3, 4, 5, 6, 7, 8 });
+    holidays.append({1, 23, 24 });
+    holidays.append({2, 8, 9 });
+    holidays.append({4, 1, 2, 3, 8 ,9, 10});
+    holidays.append({5, 11, 12});
+    holidays.append({10, 4, 5});
+
     setLayout(main_layout);
+
+    shift.work = 1;
+    shift.free = 1;
+    change = 0;
+
+    orientOfCalendar = 0;
+    flag = true;
 }
 
 void calendarwidget::drowCalendar(int year, int month)
 {
-    qDebug() << "drowCalendar";
+    //qDebug() << "drowCalendar";
+    int end_year;
     int tmp_month = month;
-    flag = true;                          //true-work, false-free
+
+    if(12 - month != 1)
+    {
+        end_year = year+1;
+    }
+    else
+    {
+        end_year = year;
+    }
+    int tmp = 0;
     for (int y = year;  y < year + 1; y++)
     {
-        for (int m = 0; m < 12; m++)
+        for (int m = start_month - 1; tmp < 12; m++)
         {
-            if(tmp_month == 12)
+            if (m == 12)
             {
-                tmp_month = 1;
+                m = 0;
+                y++;
             }
-            list->at(tmp_month-1)->setCurrentPage(y, m + 1);
-            list->at(tmp_month-1)->setSelectionMode(QCalendarWidget::NoSelection);
+            list->at(m)->setCurrentPage(y, m + 1);
+            list->at(m)->setSelectionMode(QCalendarWidget::NoSelection);
+            chooseDate(shift, list->at(m));
             tmp_month++;
-        }
-        for (int i = 0; i < 12; i++)
-        {
-            chooseDate(shift, list->at(i));  //function for drowing sheldue on the calendar
+            tmp++;
         }
     }
+    drowVoc(begin_voc, end_voc);
+    drowHol();
 }
 
-void calendarwidget::chooseDate(work_shift shift, QCalendarWidget *calendar)
+void calendarwidget::drowVoc(QDate begin_voc, QDate end_voc)
 {
-    qDebug() << "choose Data";
-    int year = calendar->yearShown();
-    int month = calendar->monthShown();
-    int days;
+    qDebug() << "drowVoc";
     QTextCharFormat format;
-    QTextCharFormat format2;
+    format.setBackground(QColor(255,241,64,150));
+    int days;
+    int month = begin_voc.month();
+    int year = begin_voc.year();
+    days = retDaysInMonth(month, year);
+    //qDebug() << begin_voc;
+    QCalendarWidget *calendar = list->at(begin_voc.month() - 1);
+    for (int i = begin_voc.day(); i < days + 1; i++)
+    {
+        //qDebug() << i;
+        calendar->setDateTextFormat({year,month,i},format);
+    }
+    //qDebug() << end_voc.month()-1;
+    calendar = list->at(end_voc.month()- 1);
+    month = end_voc.month();
+    year = end_voc.year();
+    for (int i = 1; i < end_voc.day() + 1; i++)
+    {
+        calendar->setDateTextFormat({year,month,i},format);
+    }
 
+
+}
+
+void calendarwidget::drowHol()
+{
+    qDebug() << "drow Hol";
+    QTextCharFormat format;
+    format.setBackground(Qt::white);
+    format.setForeground(Qt::red);
+
+    for (int i =0; i<holidays.size(); i++)
+    {
+        QList<int> tmp = holidays[i];
+        QCalendarWidget *calendar = list->at(tmp[0]);
+        int year = calendar->yearShown();
+        int month = calendar->monthShown();
+        for(int j = 1; j<tmp.size(); j++)
+        {
+           calendar->setDateTextFormat({year,month,tmp[j]},format);
+        }
+    }
+
+}
+
+int calendarwidget::retDaysInMonth(int month, int year)
+{
+    int days;
     switch(month)
     {
     case 2:
@@ -101,10 +180,37 @@ void calendarwidget::chooseDate(work_shift shift, QCalendarWidget *calendar)
         break;
     }
 
-    format.setBackground(Qt::lightGray);
+    return days;
+}
+
+void calendarwidget::chooseDate(work_shift shift, QCalendarWidget *calendar)
+{
+    qDebug() << "choose Data ";
+    int year = calendar->yearShown();
+    int month = calendar->monthShown();
+    int days;
+    QTextCharFormat format;
+    QTextCharFormat format2;
+
+    days = retDaysInMonth(month, year);
+    format.setBackground(QColor(70,113,213,170));
     format2.setBackground(Qt::white);
 
-    for (int i = 1; i < days + 1;)
+    int day_st = 1;
+    if(month == start_month)
+    {
+        if(change == 1)
+        {
+            day_st = start_day + shift.free;
+            work = 0;
+            free = shift.free;
+            flag = false;
+        }
+        else
+            day_st = start_day;
+    }
+
+    for (int i = day_st; i < days + 1;)
     {
         calendar->setDateTextFormat({year,month,i},format2);
         if (flag == true)
@@ -116,36 +222,30 @@ void calendarwidget::chooseDate(work_shift shift, QCalendarWidget *calendar)
             }
             else
             {
-              /*  if (backgr == 1)
-                {
-                    if (work == 0)
-                    {
-                        format.setBackground(QColor(255,241,64,150));
-                    }
-                    if (work == 1)
-                    {
-                        format.setBackground(QColor(70,113,213,170));
-
-                        */
+                //qDebug() << i << " " << month << " " << year;
                 calendar->setDateTextFormat({year,month,i},format);
                 work++;
-                if (work == shift.work)
+                i++;
+                if (work==shift.work)
                 {
                     work=0;
                     flag=false;
                 }
-                i++;
+
             }
         }
-        else if (flag == false)
+        else
         {
-            free++;
-            if (free == shift.free)
-            {
-                free = 0;
-                flag = true;
-            }
-            i++;
+             if (free==shift.free)
+             {
+                 free=0;
+                 flag=true;
+             }
+             else
+             {
+                 free++;
+                 i++;
+             }
         }
     }
 }
@@ -153,72 +253,29 @@ void calendarwidget::chooseDate(work_shift shift, QCalendarWidget *calendar)
 void calendarwidget::paint_calendar()
 {
     qDebug() << "paint calendar";
-    QCalendarWidget *calendar_1 = new QCalendarWidget;
-    QCalendarWidget *calendar_2 = new QCalendarWidget;
-    QCalendarWidget *calendar_3 = new QCalendarWidget;
-    QCalendarWidget *calendar_4 = new QCalendarWidget;
-    QCalendarWidget *calendar_5 = new QCalendarWidget;
-    QCalendarWidget *calendar_6 = new QCalendarWidget;
-    QCalendarWidget *calendar_7 = new QCalendarWidget;
-    QCalendarWidget *calendar_8 = new QCalendarWidget;
-    QCalendarWidget *calendar_9 = new QCalendarWidget;
-    QCalendarWidget *calendar_10 = new QCalendarWidget;
-    QCalendarWidget *calendar_11 = new QCalendarWidget;
-    QCalendarWidget *calendar_12 = new QCalendarWidget;
-    list->append(calendar_1);
-    list->append(calendar_2);
-    list->append(calendar_3);
-    list->append(calendar_4);
-    list->append(calendar_5);
-    list->append(calendar_6);
-    list->append(calendar_7);
-    list->append(calendar_8);
-    list->append(calendar_9);
-    list->append(calendar_10);
-    list->append(calendar_11);
-    list->append(calendar_12);
     for (int i = 0; i < 12; i++)
     {
-        list->at(i)->setNavigationBarVisible(false);
-        list->at(i)->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
+        QCalendarWidget *calendar = new QCalendarWidget;
+        calendar->setNavigationBarVisible(false);
+        calendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
+        list->append(calendar);
     }
-    QLabel *label_1 = new QLabel(calendar_1);
-    QLabel *label_2 = new QLabel(calendar_2);
-    QLabel *label_3 = new QLabel(calendar_3);
-    QLabel *label_4 = new QLabel(calendar_4);
-    QLabel *label_5 = new QLabel(calendar_5);
-    QLabel *label_6 = new QLabel(calendar_6);
-    QLabel *label_7 = new QLabel(calendar_7);
-    QLabel *label_8 = new QLabel(calendar_8);
-    QLabel *label_9 = new QLabel(calendar_9);
-    QLabel *label_10 = new QLabel(calendar_10);
-    QLabel *label_11 = new QLabel(calendar_11);
-    QLabel *label_12 = new QLabel(calendar_12);
-    label_1->setText("Январь");
-    label_2->setText("Февраль");
-    label_3->setText("Март");
-    label_4->setText("Апрель");
-    label_5->setText("Май");
-    label_6->setText("Июнь");
-    label_7->setText("Июль");
-    label_8->setText("Август");
-    label_9->setText("Сентябрь");
-    label_10->setText("Октябрь");
-    label_11->setText("Ноябрь");
-    label_12->setText("Декабрь");
 
-    list_lable->append(label_1);
-    list_lable->append(label_2);
-    list_lable->append(label_3);
-    list_lable->append(label_4);
-    list_lable->append(label_5);
-    list_lable->append(label_6);
-    list_lable->append(label_7);
-    list_lable->append(label_8);
-    list_lable->append(label_9);
-    list_lable->append(label_10);
-    list_lable->append(label_11);
-    list_lable->append(label_12);
+    int i = start_month;
+    int tmp = 0;
+    while(tmp < 12)
+    {
+        if(i == 13)
+        {
+            i = 1;
+        }
+        QLabel *label = new QLabel(list->at(i-1));
+        label->setText(nameOfMonth[i]);
+        list_lable->append(label);
+        tmp++;
+        i++;
+    }
+    drowCalendar(start_year, start_month);
 }
 
 void calendarwidget::clear_widget()
@@ -226,11 +283,12 @@ void calendarwidget::clear_widget()
     qDebug() << "clear_widget";
     for(int i = 0; i < list->size(); i++){
         gridLayout->removeWidget(list->at(i));
+        qDebug() << 1;
     }
     for(int i = 0; i < list_lable->size(); i++){
         gridLayout->removeWidget(list_lable->at(i));
+        qDebug() << 2;
     }
-    this->resize(0,0);
 }
 
 void calendarwidget::orient_port()
@@ -238,7 +296,7 @@ void calendarwidget::orient_port()
     qDebug() << "porto";
     this->resize(400, 600);
     this->updateGeometry();
-    int m = 0;
+    int m = start_month-1;
     int l = 0;
     for (int i = 0; i < 8; i++){
         for (int j = 0; j < 3; j++){
@@ -248,6 +306,10 @@ void calendarwidget::orient_port()
                 l++;
             }
             else {
+                if (m == 12)
+                {
+                    m = 0;
+                }
                 gridLayout->addWidget(list->at(m), i, j,  Qt::AlignJustify);
                 list->at(m)->setContentsMargins(10, 0, 10, 0);
                 m++;
@@ -264,8 +326,7 @@ void calendarwidget::orient_album()
 {
     qDebug() << "album";
     this->resize(600, 400);
-    this->resize(0,0);
-    int m = 0;
+    int m = start_month-1;
     int l = 0;
     for (int i = 0; i < 6; i++){
         for (int j = 0; j < 4; j++){
@@ -275,6 +336,10 @@ void calendarwidget::orient_album()
                 l++;
             }
             else {
+                if (m == 12)
+                {
+                    m = 0;
+                }
                 gridLayout->addWidget(list->at(m), i, j,  Qt::AlignJustify);
                 list->at(m)->setContentsMargins(10, 0, 10, 0);
                 m++;
@@ -290,7 +355,7 @@ void calendarwidget::orient_album()
 
 QPixmap calendarwidget::get_print()
 {
-    qDebug() << "print";
+    qDebug() << "get print";
     QPixmap snapShot;
     snapShot=QWidget::grab();
     //snapShot.save("snapshot.png");
@@ -300,6 +365,7 @@ QPixmap calendarwidget::get_print()
 void calendarwidget::set_Data(QString fio, int day, int month, int year, int current_orient)
 {
     qDebug() << "set Data";
+    clear_widget();
     orientOfCalendar = current_orient;
     start_day = day;
     start_month = month;
@@ -313,7 +379,21 @@ void calendarwidget::set_Data(QString fio, int day, int month, int year, int cur
     {
         label_year->setText(QString::number(start_year));
     }
+    paint_calendar();
+    switch (orientOfCalendar) {
+    case 0:
+        orient_album();
+        break;
+    default:
+        orient_port();
+        break;
+    }
+}
 
+void calendarwidget::set_Voc(QDate begin, QDate end)
+{
+    begin_voc = begin;
+    end_voc = end;
 }
 
 void calendarwidget::wheelEvent(QWheelEvent *event)

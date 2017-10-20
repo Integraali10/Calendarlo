@@ -1,15 +1,11 @@
 #include "mainwindow.h"
-//#include "calendarwidget.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QFileDialog>
 #include <QDebug>
 #include <QTextStream>
-#include <QMessageBox>
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
-#include <QtPrintSupport/QPrinterInfo>
-#include <QPainter>
 
 
 #define VOCATION_DAYS 30
@@ -18,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent)
 {
     setStyleSheet("background-color: #C8D3D3;");
-    setFixedSize(450,390);
+    setFixedSize(421,350);
     setWindowTitle("Calendar");
 
     createWindow();
@@ -28,14 +24,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(save, SIGNAL(clicked(bool)),this, SLOT(save_Calendar()));
     connect(print, SIGNAL(clicked(bool)),this, SLOT(print_Calendar()));
     connect(view, SIGNAL(clicked(bool)),this, SLOT(show_Calendar()));
-    connect(dayComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeDay()));
     connect(about,SIGNAL(clicked(bool)),this,SLOT(on_about()));
     connect(monthComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeMonth()));
     connect(yearComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeYear()));
     connect(from,SIGNAL(dateChanged(QDate)),this,SLOT(changeVocation()));
-    connect(graphicComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeGraphic()));
-    connect(orientComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeOrientation()));
-    connect(changeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeChange()));
+
 }
 
 void MainWindow::createWindow()
@@ -65,18 +58,6 @@ void MainWindow::createWindow()
     botton_layout->addWidget(open);
     botton_layout->addWidget(save);
     botton_layout->addWidget(print);
-
-    fioGroupBox = new QGroupBox(tr("ФИО"));
-
-    fioLineEdit = new QLineEdit;
-    fioLineEdit->setFixedSize(300, 26);
-    fioLineEdit->setStyleSheet("background-color: #E9EDED;");
-
-    QHBoxLayout *fio_layout = new QHBoxLayout;
-    fio_layout->addStretch();
-    fio_layout->addWidget(fioLineEdit);
-    fio_layout->addStretch();
-    fioGroupBox->setLayout(fio_layout);
 
     day_label = new QLabel("День");
     day_label->setFixedSize(111,26);
@@ -114,8 +95,6 @@ void MainWindow::createWindow()
     change_label->setFixedSize(111,26);
     orient_label = new QLabel("Ориентация");
     orient_label->setFixedSize(111,26);
-    graphic_label = new QLabel("График");
-    graphic_label->setFixedSize(111,26);
 
 
     changeComboBox = new QComboBox;
@@ -124,13 +103,6 @@ void MainWindow::createWindow()
     orientComboBox = new QComboBox;
     orientComboBox->setFixedSize(111,26);
     orientComboBox->setStyleSheet("background-color: #E9EDED;");
-    graphicComboBox = new QComboBox;
-    graphicComboBox->setFixedSize(111,26);
-    graphicComboBox->setStyleSheet("background-color: #E9EDED;");
-
-    QVBoxLayout *graphic_layout = new QVBoxLayout;
-    graphic_layout->addWidget(graphic_label);
-    graphic_layout->addWidget(graphicComboBox);
 
     QVBoxLayout *change_layout = new QVBoxLayout;
     change_layout->addWidget(change_label);
@@ -141,9 +113,16 @@ void MainWindow::createWindow()
     orient_layout->addWidget(orientComboBox);
 
     QHBoxLayout *set_layout = new QHBoxLayout;
-    set_layout->addLayout(graphic_layout);
     set_layout->addLayout(change_layout);
     set_layout->addLayout(orient_layout);
+
+    graphicGroupBox = new QGroupBox(tr("График"));
+    graphicComboBox = new QComboBox;
+    graphicComboBox->setFixedSize(321,26);
+    graphicComboBox->setStyleSheet("background-color: #E9EDED;");
+    QHBoxLayout *graphic_layout = new QHBoxLayout;
+    graphic_layout->addWidget(graphicComboBox);
+    graphicGroupBox->setLayout(graphic_layout);
 
     vocationGroupBox = new QGroupBox(tr("Отпуск"));
     from_label = new QLabel("c");
@@ -173,29 +152,19 @@ void MainWindow::createWindow()
     QVBoxLayout *main_layout = new QVBoxLayout;
     main_layout->addLayout(about_layout);
     main_layout->addLayout(botton_layout);
-    main_layout->addWidget(fioGroupBox);
     main_layout->addLayout(main_data_layout);
     main_layout->addLayout(set_layout);
+    main_layout->addWidget(graphicGroupBox);
     main_layout->addWidget(vocationGroupBox);
     main_layout->addLayout(view_layout);
 
     setLayout(main_layout);
 }
 
-void MainWindow::getVersion()
-{
-    QFile fileVersion("version.txt");
-    if (!fileVersion.open(QFile::ReadOnly | QFile::Text))
-    {
-        return;
-    }
-    QTextStream in(&fileVersion);
-    version = in.readLine();
-}
-
 void MainWindow::addData()
 {
     getVersion();
+
     QDate data;
     data = QDate :: currentDate();
     choosen_day = data.day();
@@ -214,7 +183,7 @@ void MainWindow::addData()
     monthComboBox->insertItem(9, "Октябрь");
     monthComboBox->insertItem(10, "Ноябрь");
     monthComboBox->insertItem(11, "Декабрь");
-    monthComboBox->setCurrentIndex(choosen_month-1);
+    monthComboBox->setCurrentIndex(month-1);
 
     int MAX_DAY;
     switch(choosen_month)
@@ -247,34 +216,31 @@ void MainWindow::addData()
     }
 
     int year = choosen_year;
-    for(int i = 0; i < 10; i++)
+    for(int i=0; i<10; i++)
     {
         yearComboBox->insertItem(i,QString::number(year));
         year++;
     }
 
     int it = 1;
-    for(int i = 0; i < MAX_DAY; i++)
+    for(int i=0; i<MAX_DAY; i++)
     {
         dayComboBox->insertItem(i,QString::number(it));
         it++;
     }
-    dayComboBox->setCurrentIndex(choosen_day-1);
+    dayComboBox->setCurrentIndex(day-1);
 
     changeComboBox->insertItem(0, "1");
     changeComboBox->insertItem(1,"2");
-    graphicComboBox->insertItem(0, "1/1");
-    graphicComboBox->insertItem(1, "1/2");;
-    graphicComboBox->insertItem(2, "2/1");
-    graphicComboBox->insertItem(3, "2/2");
+    graphicComboBox->insertItem(0, "12 часов ночь, 12 часов день, 2 выходных");
+    graphicComboBox->insertItem(1, "Сутки через двое");
+    graphicComboBox->insertItem(2, "Сутки через трое");
     orientComboBox->insertItem(0, "Альбомная");
     orientComboBox->insertItem(1, "Портрет");
 
     from->setDate(data);
     to->setDate(countVocation());
 
-    calendar =  new calendarwidget();
-    calendar->set_Voc(from->date(), to->date());
 }
 
 QDate MainWindow::countVocation()
@@ -324,86 +290,10 @@ QDate MainWindow::countVocation()
     return new_data;
 }
 
-void MainWindow::changeGraphic()
-{
-    calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
-    calendar->set_Voc(from->date(), to->date());
-    int index = graphicComboBox->currentIndex();
-    switch(index)
-    {
-    case 0:
-        calendar->shift.work=1;
-        calendar->shift.free=1;
-        calendar->drowCalendar(choosen_year, choosen_month);
-        break;
-    case 1:
-        calendar->shift.work=1;
-        calendar->shift.free=2;
-        calendar->drowCalendar(choosen_year, choosen_month);
-        break;
-    case 2:
-        calendar->shift.work=2;
-        calendar->shift.free=1;
-        calendar->drowCalendar(choosen_year, choosen_month);
-        break;
-    case 3:
-        calendar->shift.work=2;
-        calendar->shift.free=2;
-        calendar->drowCalendar(choosen_year, choosen_month);
-        break;
-    default:
-        break;
-    }
-}
-
-void MainWindow::changeOrientation()
-{
-    //calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
-    //calendar->set_Voc(from->date(), to->date());
-    int index = orientComboBox->currentIndex();
-    switch(index)
-    {
-    case 0:
-        calendar->clear_widget();
-        calendar->orient_album();
-        break;
-    case 1:
-        calendar->clear_widget();
-        calendar->orient_port();
-        break;
-    default:
-        break;
-    }
-}
-
-void MainWindow::changeChange()
-{
-    qDebug()<< "change";
-    calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
-    calendar->set_Voc(from->date(), to->date());
-    int index = changeComboBox->currentIndex();
-    switch (index)
-    {
-    case 0:
-        calendar->change=0;
-        calendar->flag = true;
-        calendar->drowCalendar(choosen_year, choosen_month);
-        break;
-    case 1:
-        calendar->change = 1;
-        calendar->flag = false;
-        calendar->drowCalendar(choosen_year, choosen_month);
-    default:
-        break;
-    }
-}
-
 void MainWindow::changeVocation()
 {
-    calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
     to->setDate(countVocation());
     to->setEnabled(false);
-    calendar->set_Voc(from->date(), to->date());
 }
 
 void MainWindow::open_Data()
@@ -417,7 +307,6 @@ void MainWindow::open_Data()
     QTextStream in(&fileIn);
     while (!in.atEnd())
     {
-        fioLineEdit->setText(in.readLine());
         dayComboBox->setCurrentIndex(in.readLine().toInt());
         monthComboBox->setCurrentIndex(in.readLine().toInt());
         yearComboBox->setCurrentIndex(in.readLine().toInt());
@@ -429,21 +318,19 @@ void MainWindow::open_Data()
         QDate data_to(in.readLine().toInt(), in.readLine().toInt(), in.readLine().toInt());
         to->setDate(data_to);
     }
+
     fileIn.close();
 }
 
 void MainWindow::save_Calendar()
 {
-    QString fio = fioLineEdit->text() + ".txt";
-    qDebug() << fio;
-    QString strFile = QFileDialog::getSaveFileName(this,tr("Save File"),fio);
+    QString strFile = QFileDialog::getSaveFileName(this,tr("Save File"),tr("*.txt"));
     QFile fileOut(strFile);
     if (!fileOut.open(QFile::WriteOnly | QFile::Text))
     {
        return;
     }
     QTextStream stream(&fileOut);
-    stream << fioLineEdit->text() << endl;
     stream << dayComboBox->currentIndex() << endl;
     stream << monthComboBox->currentIndex() << endl;
     stream << yearComboBox->currentIndex() << endl;
@@ -459,47 +346,52 @@ void MainWindow::save_Calendar()
     stream << to->date().month() << endl;
     stream << to->date().year() << endl;
 
+
     fileOut.close();
 }
 
 void MainWindow::print_Calendar()
 {
-
-    QPrinter printer;
-    QList <QPrinterInfo> plist = QPrinterInfo::availablePrinters();
-
-    qDebug() << "len = " << plist.length();
+    /*QPrinter printer;
     QPrintDialog printDialog(&printer, this);
-    printDialog.setWindowTitle(tr("Print Document"));
+
     if (printDialog.exec())
     {
-        qDebug() << "printDialog";
-        QRect rect(0,0,288,180);
-        QPixmap pic = calendar->get_print();
-
-        QPainter painter;
-        pic.scaled(printer.pageRect().width(), printer.pageRect().height(), Qt::KeepAspectRatio);
-        painter.begin(&printer);
-        painter.drawPixmap(0,0,pic);
-        painter.end();
-    }
+      //QTextDocument textDocument;
+      //textDocument.setHtml(html);
+      //textDocument.setDefaultFont(QFont("Times", 10, QFont::Bold));
+      //textDocument.print(&printer);
+        qDebug() << "print";
+    }*/
 
 }
 
 void MainWindow::show_Calendar()
 {
-    calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
-    calendar->set_Voc(from->date(), to->date());
-    //calendar->drowCalendar(choosen_year, choosen_month);
-    calendar->show();
-    calendar->update();
+
+
+}
+
+void MainWindow::getVersion()
+{
+    QString strFile = "C:/Users/123/Documents/main_widget_calendar/version.txt";
+    QFile fileConfig(strFile);
+    if (!fileConfig.open(QFile::ReadOnly | QFile::Text))
+    {
+       qDebug() << "File not opened!!!";
+       return;
+    }
+    QTextStream in(&fileConfig);
+    version = in.readLine();
+
+    fileConfig.close();
 }
 
 void MainWindow::on_about()
 {
     QMessageBox *aboutMsgBox = new QMessageBox();
     aboutMsgBox->setStyleSheet("background-color: #E9EDED");
-    aboutMsgBox->setText("Version 1." + version);
+    aboutMsgBox->setText(version);
     aboutMsgBox->setWindowTitle("About");
     aboutMsgBox->setFixedSize(200,100);
     aboutMsgBox->setIcon(QMessageBox::Information);
@@ -507,13 +399,6 @@ void MainWindow::on_about()
     aboutMsgBox->setStandardButtons(QMessageBox::Ok);
     aboutMsgBox->setAttribute(Qt::WA_DeleteOnClose, true);
     aboutMsgBox->show();
-}
-
-void MainWindow::changeDay()
-{
-    choosen_day = dayComboBox->currentIndex()+1;
-    calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
-    calendar->set_Voc(from->date(), to->date());
 }
 
 void MainWindow::changeMonth()
@@ -524,7 +409,7 @@ void MainWindow::changeMonth()
     switch (choosen_month)
     {
     case 2:
-        if(((y % 4 == 0)&(y % 100 != 0))||(y % 400 == 0))
+        if(((y%4==0)&(y%100!=0))||(y%400==0))
         {
             MAX_DAY = 29;
         }
@@ -560,19 +445,18 @@ void MainWindow::changeMonth()
             count++;
         }
     }
-    calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
-    calendar->set_Voc(from->date(), to->date());
+
 }
 
 void MainWindow::changeYear()
 {
     QString tmpYear = yearComboBox->currentText();
     choosen_year = tmpYear.toInt();
-    int m = monthComboBox->currentIndex() + 1;
+    int m = monthComboBox->currentIndex()+1;
     int MAX_DAY;
     if(m == 2)
     {
-        if(((choosen_year % 4 == 0)&(choosen_year % 100 != 0))||(choosen_year % 400 == 0))
+        if(((choosen_year%4==0)&(choosen_year%100!=0))||(choosen_year%400==0))
         {
             MAX_DAY = 29;
         }
@@ -584,16 +468,16 @@ void MainWindow::changeYear()
         dayComboBox->setMaxCount(MAX_DAY);
         if (maxCount < MAX_DAY)
         {
-            int count = maxCount + 1;
-            for(int i = maxCount; i < MAX_DAY; i++)
+            int count = maxCount+1;
+            for(int i = maxCount; i<MAX_DAY; i++)
             {
                 dayComboBox->insertItem(i,QString::number(count));
                 count++;
             }
         }
     }
-    calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
-    calendar->set_Voc(from->date(), to->date());
+
+
 }
 
 MainWindow::~MainWindow()
@@ -615,7 +499,7 @@ MainWindow::~MainWindow()
     delete changeComboBox;
     delete orientComboBox;
 
-    delete graphic_label;
+    delete graphicGroupBox;
     delete graphicComboBox;
 
     delete vocationGroupBox;
@@ -623,7 +507,4 @@ MainWindow::~MainWindow()
     delete to_label;
     delete from;
     delete to;
-
-    delete fioGroupBox;
-    delete fioLineEdit;
 }

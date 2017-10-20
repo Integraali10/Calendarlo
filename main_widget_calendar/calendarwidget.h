@@ -8,10 +8,12 @@
 #include <QLabel>
 #include <QTextCharFormat>
 #include <QWheelEvent>
+#include <QMap>
+#include <QDate>
 
 struct work_shift{
-    int work=1;
-    int free=1;
+    int work;
+    int free;
 };
 
 class calendarwidget : public QWidget
@@ -22,30 +24,39 @@ public:
 
     void chooseDate(work_shift shift, QCalendarWidget *calendar);
     void drowCalendar(int, int);
+    void drowVoc(QDate, QDate);
+    void drowHol();
     void paint_calendar();
     void clear_widget();
     void orient_album();
     void orient_port();
     void set_Data(QString fio, int current_orient, int day, int month, int year);
+    void set_Voc(QDate begin, QDate end);
     void addData();
+    int retDaysInMonth(int month, int year);
     QPixmap get_print();
     work_shift shift;
-    int change = 0, free = 0, work = 0, orient = 0;
+    int change, free, work;
+    bool flag;
+
+
 
 private:
-    bool flag;
+
     QGridLayout *gridLayout;
     QList<QCalendarWidget*> *list;
     QList<QLabel*> *list_lable;
     QLabel *label_year;
     QLabel *label_fio;
-    int orientOfCalendar;
+    int orientOfCalendar = 0;
     int start_day;
     int start_month;
     int start_year;
+    QMap <int, QString> nameOfMonth;
+    QList <QList<int>> holidays;
+    QDate begin_voc;
+    QDate end_voc;
     void wheelEvent(QWheelEvent *event);
-
-
 };
 
 #endif // CALENDARWIDGET_H
