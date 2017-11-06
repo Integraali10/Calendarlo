@@ -67,7 +67,7 @@ void calendarwidget::addData()
 void calendarwidget::drowCalendar(int year, int month)
 {
     //qDebug() << "drowCalendar";
-    int end_year;
+    int end_year = 0;
     int tmp_month = month;
 
     if(12 - month != 1)
