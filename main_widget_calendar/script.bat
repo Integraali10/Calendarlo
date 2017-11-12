@@ -12,11 +12,7 @@ copy version.txt release/version.txt
 echo program build 	press "Enter" for create exe file.
 make
 echo exe file create on path /relese.
-d:
-cd qt\5.6\msvc2015_64\bin
-windeployqt.exe C:\Users\Anton\Desktop\calendar\Calendarlo\main_widget_calendar\release\main_widget_calendar.exe
-c:
-cd C:\Users\Anton\Desktop\calendar\Calendarlo\main_widget_calendar
+cd C:\Users\Anton\Desktop\УЧЕБА\calendar\Calendarlo\main_widget_calendar
 compil32 /cc script1.iss
 gitScript.bat
 echo New version push on git
