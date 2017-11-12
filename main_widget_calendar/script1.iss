@@ -35,6 +35,7 @@ Source: "C:\Users\Anton\Desktop\dll\Qt5Core.dll"; DestDir: "{app}"; Flags: ignor
 Source: "C:\Users\Anton\Desktop\dll\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Anton\Desktop\dll\Qt5PrintSupport.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Anton\Desktop\dll\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Anton\Desktop\dll\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Anton\Desktop\dll\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\Anton\Desktop\dll\platforms\*"; DestDir: "{app}/platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\Anton\Desktop\dll\imageformats\*"; DestDir: "{app}/imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
