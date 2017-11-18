@@ -19,5 +19,4 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     calendarwidget.h
 
-DISTFILES +=
-
+QMAKE_LFLAGS = -static -static-libgcc -enable-stdcall-fixup -Wl,-enable-auto-import -Wl,-enable-runtime-pseudo-reloc
