@@ -28,7 +28,7 @@ Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "dll\main_widget_calendar.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\main_widget_calendar.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\MSVCP140.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
