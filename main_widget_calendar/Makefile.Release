@@ -71,7 +71,7 @@ $(DESTDIR_TARGET):  $(OBJECTS)
 	$(LINKER) $(LFLAGS) -o $(DESTDIR_TARGET) $(OBJECTS)  $(LIBS)
 
 qmake: FORCE
-	@$(QMAKE) -o Makefile.Release main_widget_calendar.pro -spec win32-g++ "CONFIG+=release"
+	@$(QMAKE) -o Makefile.Release main_widget_calendar.pro
 
 qmake_all: FORCE
 

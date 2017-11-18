@@ -7,7 +7,7 @@ set /a vers+=1
 ECHO %vers%
 copy nul version.txt
 ECHO %vers% >>version.txt
-qmake -o Makefile main_widget_calendar.pro -spec "CONFIG+=release"
+qmake -o Makefile main_widget_calendar.pro
 copy version.txt release/version.txt
 echo program build 	press "Enter" for create exe file.
 MinGW32-make
