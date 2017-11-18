@@ -19,4 +19,4 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     calendarwidget.h
 
-QMAKE_LFLAGS += -static
+

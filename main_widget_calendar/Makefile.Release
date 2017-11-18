@@ -16,7 +16,7 @@ CFLAGS        = -fno-keep-inline-dllexport -march=nocona -mtune=core2 -Wa,-mbig-
 CXXFLAGS      = -fno-keep-inline-dllexport -march=nocona -mtune=core2 -Wa,-mbig-obj -pipe -O2 -Wextra -Wall -W -fexceptions -mthreads $(DEFINES)
 INCPATH       = -I. -isystem C:\msys64\mingw64\include\QtPrintSupport -isystem C:\msys64\mingw64\include\QtWidgets -isystem C:\msys64\mingw64\include\QtGui -isystem C:\msys64\mingw64\include\QtCore -Irelease -IC:\msys64\mingw64\share\qt5\mkspecs\win32-g++ 
 LINKER      =        g++
-LFLAGS        =        -static -static-libgcc -static -Wl,-s,--relax,--gc-sections -Wl,-subsystem,windows -mthreads
+LFLAGS        =        -static -static-libgcc -Wl,-s,--relax,--gc-sections -Wl,-subsystem,windows -mthreads
 LIBS        =        -lglu32 -lopengl32 -lgdi32 -luser32 -lmingw32 -lqtmain -lQt5PrintSupport -lQt5Widgets -lQt5Gui -lQt5Core 
 QMAKE         = C:\msys64\mingw64\bin\qmake.exe
 IDC           = idc
