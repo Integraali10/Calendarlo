@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 color 0a
 title Script build Program
 set /P vers= < version.txt
@@ -12,7 +12,7 @@ copy version.txt release/version.txt
 echo program build 	press "Enter" for create exe file.
 make
 echo exe file create on path /relese.
-cd C:\Users\Anton\Desktop\УЧЕБА\calendar\Calendarlo\main_widget_calendar
+cd C:\Users\Savva\Documents\GitProjects\Calendarlo.git\main_widget_calendar
 compil32 /cc script1.iss
 gitScript.bat
 echo New version push on git
