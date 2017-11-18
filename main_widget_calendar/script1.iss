@@ -28,18 +28,18 @@ Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\dll\main_widget_calendar.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\dll\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\dll\MSVCP140.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\dll\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\dll\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\dll\Qt5PrintSupport.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\dll\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\dll\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\dll\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\dll\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\dll\platforms\*"; DestDir: "{app}/platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\dll\imageformats\*"; DestDir: "{app}/imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "\dll\main_widget_calendar.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "\dll\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "\dll\MSVCP140.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "\dll\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "\dll\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "\dll\Qt5PrintSupport.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "\dll\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "\dll\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "\dll\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "\dll\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "\dll\platforms\*"; DestDir: "{app}/platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "\dll\imageformats\*"; DestDir: "{app}/imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
