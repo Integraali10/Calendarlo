@@ -67,17 +67,18 @@ void calendarwidget::addData()
 void calendarwidget::drowCalendar(int year, int month)
 {
     //qDebug() << "drowCalendar";
-    int end_year = 0;
+    //int end_year = 0;
     int tmp_month = month;
 
-    if(12 - month != 1)
-    {
-        end_year = year+1;
-    }
-    else
-    {
-        end_year = year;
-    }
+    //if(12 - month != 1)
+    //{
+    //    end_year = year+1;
+    //}
+    //else
+    //{
+    //    end_year = year;
+    //}
+
     int tmp = 0;
     for (int y = year;  y < year + 1; y++)
     {
@@ -150,7 +151,7 @@ void calendarwidget::drowHol()
 
 int calendarwidget::retDaysInMonth(int month, int year)
 {
-    int days;
+    int days = 0;
     switch(month)
     {
     case 2:
@@ -404,9 +405,10 @@ void calendarwidget::wheelEvent(QWheelEvent *event)
 
 calendarwidget::~calendarwidget()
 {
-    delete gridLayout;
+
     delete list;
     delete list_lable;
     delete label_year;
+    delete gridLayout;
 }
 

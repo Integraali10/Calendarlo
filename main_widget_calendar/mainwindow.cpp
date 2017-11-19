@@ -216,7 +216,7 @@ void MainWindow::addData()
     monthComboBox->insertItem(11, "Декабрь");
     monthComboBox->setCurrentIndex(choosen_month-1);
 
-    int MAX_DAY;
+    int MAX_DAY = 0;
     switch(choosen_month)
     {
     case 2:
@@ -520,7 +520,7 @@ void MainWindow::changeMonth()
 {
     choosen_month = monthComboBox->currentIndex() + 1;
     int y = yearComboBox->currentText().toInt();
-    int MAX_DAY;
+    int MAX_DAY = 0;
     switch (choosen_month)
     {
     case 2:
@@ -618,12 +618,13 @@ MainWindow::~MainWindow()
     delete graphic_label;
     delete graphicComboBox;
 
-    delete vocationGroupBox;
+
     delete from_label;
     delete to_label;
     delete from;
     delete to;
+    delete vocationGroupBox;
 
-    delete fioGroupBox;
     delete fioLineEdit;
+    delete fioGroupBox;
 }
