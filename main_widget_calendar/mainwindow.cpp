@@ -464,7 +464,7 @@ void MainWindow::save_Calendar()
 
 void MainWindow::print_Calendar()
 {
-
+    calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
     QPrinter printer;
     QList <QPrinterInfo> plist = QPrinterInfo::availablePrinters();
 
@@ -474,13 +474,20 @@ void MainWindow::print_Calendar()
     if (printDialog.exec())
     {
         qDebug() << "printDialog";
-        QRect rect(0,0,288,180);
-        QPixmap pic = calendar->get_print();
-
+        //QRect rect(0,0,288,180);
+        //QPixmap pic = calendar->get_print();
         QPainter painter;
-        pic.scaled(printer.pageRect().width(), printer.pageRect().height(), Qt::KeepAspectRatio);
+        //pic.scaled(printer.pageRect().width(), printer.pageRect().height(), Qt::KeepAspectRatio);
         painter.begin(&printer);
-        painter.drawPixmap(0,0,pic);
+        double xscale = printer.pageRect().width()/double(calendar->width());
+        double yscale = printer.pageRect().height()/double(calendar->height());
+        double scale = qMin(xscale, yscale);
+        qDebug() << xscale << yscale;
+        painter.translate(printer.paperRect().x() + 0,
+                           printer.paperRect().y() + 0);
+        painter.scale(scale, scale);
+        calendar->render(&painter);
+        //painter.drawPixmap(0,0,pic);
         painter.end();
     }
 
@@ -490,7 +497,7 @@ void MainWindow::show_Calendar()
 {
     calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
     calendar->set_Voc(from->date(), to->date());
-    //calendar->drowCalendar(choosen_year, choosen_month);
+    calendar->drowCalendar(choosen_year, choosen_month);
     calendar->show();
     calendar->update();
 }

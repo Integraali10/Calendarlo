@@ -288,7 +288,7 @@ void calendarwidget::clear_widget()
     }
     for(int i = 0; i < list_lable->size(); i++){
         list_lable->at(i)->hide();
-        gridLayout->removeWidget(list_lable->at(i));
+        //gridLayout->removeWidget(list_lable->at(i));
         qDebug() << 2;
     }
     //list->clear();
@@ -359,10 +359,11 @@ void calendarwidget::orient_album()
 
 QPixmap calendarwidget::get_print()
 {
+
     qDebug() << "get print";
     QPixmap snapShot;
     snapShot=QWidget::grab();
-    //snapShot.save("snapshot.png");
+    snapShot.save("snapshot.png");
     return snapShot;
 }
 
