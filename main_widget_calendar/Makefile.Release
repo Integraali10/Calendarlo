@@ -111,7 +111,7 @@ release/moc_mainwindow.cpp: calendarwidget.h \
 		mainwindow.h \
 		release/moc_predefs.h \
 		C:/msys64/mingw64/bin/moc.exe
-	C:\msys64\mingw64\bin\moc.exe $(DEFINES) --include release/moc_predefs.h -IC:/msys64/mingw64/share/qt5/mkspecs/win32-g++ -IC:/Users/Savva/Documents/GitProjects/Calendarlo.git/main_widget_calendar -IC:/msys64/mingw64/include/QtPrintSupport -IC:/msys64/mingw64/include/QtWidgets -IC:/msys64/mingw64/include/QtGui -IC:/msys64/mingw64/include/QtCore -IC:/msys64/mingw64/include/c++/7.2.0 -IC:/msys64/mingw64/include/c++/7.2.0/x86_64-w64-mingw32 -IC:/msys64/mingw64/include/c++/7.2.0/backward -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/7.2.0/include -IC:/msys64/mingw64/include -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/7.2.0/include-fixed -IC:/msys64/mingw64/x86_64-w64-mingw32/include mainwindow.h -o release\moc_mainwindow.cpp
+	C:\msys64\mingw64\bin\moc.exe $(DEFINES) --include release/moc_predefs.h -IC:/msys64/mingw64/share/qt5/mkspecs/win32-g++ -IC:/Users/Savva/Documents/GitProjects/Calendarlo/main_widget_calendar -IC:/msys64/mingw64/include/QtPrintSupport -IC:/msys64/mingw64/include/QtWidgets -IC:/msys64/mingw64/include/QtGui -IC:/msys64/mingw64/include/QtCore -IC:/msys64/mingw64/include/c++/7.2.0 -IC:/msys64/mingw64/include/c++/7.2.0/x86_64-w64-mingw32 -IC:/msys64/mingw64/include/c++/7.2.0/backward -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/7.2.0/include -IC:/msys64/mingw64/include -IC:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/7.2.0/include-fixed -IC:/msys64/mingw64/x86_64-w64-mingw32/include mainwindow.h -o release\moc_mainwindow.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
