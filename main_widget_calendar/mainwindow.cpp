@@ -413,6 +413,7 @@ void MainWindow::open_Data()
        return;
     }
     QTextStream in(&fileIn);
+    in.setCodec("UTF-8");
     while (!in.atEnd())
     {
         fioLineEdit->setText(in.readLine());
@@ -441,6 +442,7 @@ void MainWindow::save_Calendar()
        return;
     }
     QTextStream stream(&fileOut);
+    stream.setCodec("UTF-8");
     stream << fioLineEdit->text() << endl;
     stream << dayComboBox->currentIndex() << endl;
     stream << monthComboBox->currentIndex() << endl;
