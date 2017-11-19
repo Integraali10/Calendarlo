@@ -287,9 +287,12 @@ void calendarwidget::clear_widget()
         qDebug() << 1;
     }
     for(int i = 0; i < list_lable->size(); i++){
+        list_lable->at(i)->hide();
         gridLayout->removeWidget(list_lable->at(i));
         qDebug() << 2;
     }
+    //list->clear();
+    list_lable->clear();
 }
 
 void calendarwidget::orient_port()
@@ -400,12 +403,19 @@ void calendarwidget::set_Voc(QDate begin, QDate end)
 void calendarwidget::wheelEvent(QWheelEvent *event)
 {
     qDebug() << "wheel Event";
+
     event->ignore();
 }
 
+void calendarwidget::closeEvent(QCloseEvent *event)
+{
+    qDebug() << "close Event";
+
+    clear_widget();
+    event->accept();
+}
 calendarwidget::~calendarwidget()
 {
-
     delete list;
     delete list_lable;
     delete label_year;

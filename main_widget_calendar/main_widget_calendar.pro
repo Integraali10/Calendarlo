@@ -20,3 +20,4 @@ HEADERS  += mainwindow.h \
     calendarwidget.h
 
 
+#QMAKE_LFLAGS_RELEASE += -static -static-libgcc

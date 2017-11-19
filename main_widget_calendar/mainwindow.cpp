@@ -358,18 +358,16 @@ void MainWindow::changeGraphic()
 
 void MainWindow::changeOrientation()
 {
-    //calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
-    //calendar->set_Voc(from->date(), to->date());
+    calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
+    calendar->set_Voc(from->date(), to->date());
     int index = orientComboBox->currentIndex();
     switch(index)
     {
     case 0:
         calendar->clear_widget();
-        calendar->orient_album();
         break;
     case 1:
         calendar->clear_widget();
-        calendar->orient_port();
         break;
     default:
         break;

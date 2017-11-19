@@ -57,6 +57,7 @@ private:
     QDate begin_voc;
     QDate end_voc;
     void wheelEvent(QWheelEvent *event);
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // CALENDARWIDGET_H
