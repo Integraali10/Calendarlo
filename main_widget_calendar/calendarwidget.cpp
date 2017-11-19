@@ -48,11 +48,11 @@ void calendarwidget::addData()
     nameOfMonth.insert(12, "Декабрь");
 
     holidays.append({0, 1, 2, 3, 4, 5, 6, 7, 8 });
-    holidays.append({1, 23, 24 });
-    holidays.append({2, 8, 9 });
-    holidays.append({4, 1, 2, 3, 8 ,9, 10});
-    holidays.append({5, 11, 12});
-    holidays.append({10, 4, 5});
+    holidays.append({1, 23 });
+    holidays.append({2, 8 });
+    holidays.append({4, 1 ,9});
+    holidays.append({5, 12});
+    holidays.append({10, 4});
 
     setLayout(main_layout);
 
