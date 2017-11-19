@@ -12,7 +12,7 @@ copy version.txt debug/version.txt
 echo program build 	press "Enter" for create exe file.
 MinGW32-make
 echo exe file create on path /debug.
-echo cd C:\Users\Savva\Documents\GitProjects\Calendarlo.git\main_widget_calendar
+cd C:\Users\Savva\Documents\GitProjects\Calendarlo.git\main_widget_calendar
 compil32 /cc script1.iss
 gitScript.bat
 echo New version push on git
