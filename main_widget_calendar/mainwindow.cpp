@@ -262,7 +262,7 @@ void MainWindow::addData()
     dayComboBox->setCurrentIndex(choosen_day-1);
 
     changeComboBox->insertItem(0, "1");
-    changeComboBox->insertItem(1,"2");
+    changeComboBox->insertItem(1, "2");
     graphicComboBox->insertItem(0, "1/1");
     graphicComboBox->insertItem(1, "1/2");;
     graphicComboBox->insertItem(2, "2/1");
@@ -275,6 +275,8 @@ void MainWindow::addData()
 
     calendar =  new calendarwidget();
     calendar->set_Voc(from->date(), to->date());
+    //calendar->addData();
+    //calendar->drowCalendar(choosen_year, choosen_month);
 }
 
 QDate MainWindow::countVocation()
@@ -365,9 +367,11 @@ void MainWindow::changeOrientation()
     {
     case 0:
         calendar->clear_widget();
+        //calendar->drowCalendar(choosen_year, choosen_month);
         break;
     case 1:
         calendar->clear_widget();
+        //calendar->drowCalendar(choosen_year, choosen_month);
         break;
     default:
         break;
@@ -383,14 +387,17 @@ void MainWindow::changeChange()
     switch (index)
     {
     case 0:
-        calendar->change=0;
+        //calendar->clear_widget();
+        calendar->change = 0;
         calendar->flag = true;
         calendar->drowCalendar(choosen_year, choosen_month);
         break;
     case 1:
+        //calendar->clear_widget();
         calendar->change = 1;
         calendar->flag = false;
         calendar->drowCalendar(choosen_year, choosen_month);
+        break;
     default:
         break;
     }
@@ -400,7 +407,7 @@ void MainWindow::changeVocation()
 {
     calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
     to->setDate(countVocation());
-    to->setEnabled(false);
+    to->setEnabled(true);
     calendar->set_Voc(from->date(), to->date());
 }
 

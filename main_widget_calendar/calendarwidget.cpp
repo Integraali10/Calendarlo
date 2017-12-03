@@ -7,9 +7,8 @@ calendarwidget::calendarwidget(QWidget *parent) : QWidget(parent)
 {
     //qDebug() << "constructor";
     setWindowTitle("Work Timetable");
-    //
     addData();
-    //paint_calendar();
+
 }
 
 void calendarwidget::addData()
@@ -66,7 +65,7 @@ void calendarwidget::addData()
 
 void calendarwidget::drowCalendar(int year, int month)
 {
-    //qDebug() << "drowCalendar";
+    qDebug() << "drowCalendar";
     //int end_year = 0;
     int tmp_month = month;
 
@@ -198,8 +197,8 @@ void calendarwidget::chooseDate(work_shift shift, QCalendarWidget *calendar)
     format2.setBackground(Qt::white);
 
     int day_st = 1;
-    if(month == start_month)
-    {
+    //if(month == start_month)
+    //{
         if(change == 1)
         {
             day_st = start_day + shift.free;
@@ -208,8 +207,13 @@ void calendarwidget::chooseDate(work_shift shift, QCalendarWidget *calendar)
             flag = false;
         }
         else
+        {
             day_st = start_day;
-    }
+            work = shift.work;
+            free = shift.free;
+            flag = true;
+        }
+    //}
 
     for (int i = day_st; i < days + 1;)
     {
