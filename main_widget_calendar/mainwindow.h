@@ -30,9 +30,12 @@ private slots:
     void changeYear();
     void changeGraphic();
     void changeOrientation();
-    void changeVocation();
+    void changeFromVocation();
+    void changeToVocation();
     void changeChange();
     void on_about();
+    void workSlot(QDate value);
+    void vocSlot(QDate value);
 
 
 private:
@@ -42,6 +45,7 @@ private:
     void getVersion();
 
     calendarwidget *calendar;
+    CursorWidget *cursor;
 
     QString currentYear;
 
@@ -73,6 +77,7 @@ private:
     QLabel *to_label;
     QDateEdit *from;
     QDateEdit *to;
+    QLabel *voc_quantity;
 
     QString version;
     int choosen_day;

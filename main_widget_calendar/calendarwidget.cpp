@@ -3,12 +3,18 @@
 #include <QVBoxLayout>
 #include <QDebug>
 
+
 calendarwidget::calendarwidget(QWidget *parent) : QWidget(parent)
 {
     //qDebug() << "constructor";
     setWindowTitle("Work Timetable");
-    addData();
+    cursorFlag=0;
 
+    addData();
+    //for(int i =0;i<list->size();i++)
+    //{
+   //     connect(list->at(i),&QCalendarWidget::clicked,this,&calendarwidget::changeFormat);
+    //}
 }
 
 void calendarwidget::addData()
@@ -63,20 +69,25 @@ void calendarwidget::addData()
     flag = true;
 }
 
+void calendarwidget::changeFormat(QDate value)
+{
+    if(cursorFlag==2)
+    {
+        qDebug()<<"g1";
+        emit workSignal(value);
+        return;
+    }
+    if(cursorFlag==1)
+    {
+        emit vocSignal(value);
+        return;
+    }
+
+}
 void calendarwidget::drowCalendar(int year, int month)
 {
     qDebug() << "drowCalendar";
-    //int end_year = 0;
     int tmp_month = month;
-
-    //if(12 - month != 1)
-    //{
-    //    end_year = year+1;
-    //}
-    //else
-    //{
-    //    end_year = year;
-    //}
 
     int tmp = 0;
     for (int y = year;  y < year + 1; y++)
@@ -89,14 +100,14 @@ void calendarwidget::drowCalendar(int year, int month)
                 y++;
             }
             list->at(m)->setCurrentPage(y, m + 1);
-            list->at(m)->setSelectionMode(QCalendarWidget::NoSelection);
             chooseDate(shift, list->at(m));
             tmp_month++;
             tmp++;
         }
     }
-    drowVoc(begin_voc, end_voc);
     drowHol();
+    drowVoc(begin_voc, end_voc);
+
 }
 
 void calendarwidget::drowVoc(QDate begin_voc, QDate end_voc)
@@ -110,21 +121,36 @@ void calendarwidget::drowVoc(QDate begin_voc, QDate end_voc)
     days = retDaysInMonth(month, year);
     //qDebug() << begin_voc;
     QCalendarWidget *calendar = list->at(begin_voc.month() - 1);
-    for (int i = begin_voc.day(); i < days + 1; i++)
+    if(begin_voc.month()!=end_voc.month())
     {
-        //qDebug() << i;
-        calendar->setDateTextFormat({year,month,i},format);
+        for (int i = begin_voc.day(); i < days + 1; i++)
+        {
+            //qDebug() << i;
+            QTextCharFormat tmpFormat =calendar->dateTextFormat({year,month,i});
+            format.setForeground(tmpFormat.foreground());
+            calendar->setDateTextFormat({year,month,i},format);
+        }
+        //qDebug() << end_voc.month()-1;
+        calendar = list->at(end_voc.month()- 1);
+        month = end_voc.month();
+        year = end_voc.year();
+        for (int i = 1; i < end_voc.day() + 1; i++)
+        {
+            QTextCharFormat tmpFormat =calendar->dateTextFormat({year,month,i});
+            format.setForeground(tmpFormat.foreground());
+            calendar->setDateTextFormat({year,month,i},format);
+        }
     }
-    //qDebug() << end_voc.month()-1;
-    calendar = list->at(end_voc.month()- 1);
-    month = end_voc.month();
-    year = end_voc.year();
-    for (int i = 1; i < end_voc.day() + 1; i++)
+    else
     {
-        calendar->setDateTextFormat({year,month,i},format);
+        for (int i = begin_voc.day(); i<end_voc.day() + 1; i++)
+        {
+            //qDebug() << i;
+            QTextCharFormat tmpFormat =calendar->dateTextFormat({year,month,i});
+            format.setForeground(tmpFormat.foreground());
+            calendar->setDateTextFormat({year,month,i},format);
+        }
     }
-
-
 }
 
 void calendarwidget::drowHol()
@@ -197,11 +223,12 @@ void calendarwidget::chooseDate(work_shift shift, QCalendarWidget *calendar)
     format2.setBackground(Qt::white);
 
     int day_st = 1;
-    //if(month == start_month)
-    //{
+    if(month == start_month)
+    {
         if(change == 1)
         {
             day_st = start_day + shift.free;
+            calendar->setDateTextFormat({year,month,start_day},format2);
             work = 0;
             free = shift.free;
             flag = false;
@@ -213,7 +240,7 @@ void calendarwidget::chooseDate(work_shift shift, QCalendarWidget *calendar)
             free = shift.free;
             flag = true;
         }
-    //}
+    }
 
     for (int i = day_st; i < days + 1;)
     {
@@ -227,7 +254,6 @@ void calendarwidget::chooseDate(work_shift shift, QCalendarWidget *calendar)
             }
             else
             {
-                //qDebug() << i << " " << month << " " << year;
                 calendar->setDateTextFormat({year,month,i},format);
                 work++;
                 i++;
@@ -261,8 +287,10 @@ void calendarwidget::paint_calendar()
     for (int i = 0; i < 12; i++)
     {
         QCalendarWidget *calendar = new QCalendarWidget;
+        calendar->setSelectionMode(QCalendarWidget::SingleSelection);
         calendar->setNavigationBarVisible(false);
         calendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
+        connect(calendar,&QCalendarWidget::clicked,this,&calendarwidget::changeFormat);
         list->append(calendar);
     }
 
@@ -288,12 +316,12 @@ void calendarwidget::clear_widget()
     qDebug() << "clear_widget";
     for(int i = 0; i < list->size(); i++){
         gridLayout->removeWidget(list->at(i));
-        qDebug() << 1;
+        //qDebug() << 1;
     }
     for(int i = 0; i < list_lable->size(); i++){
         list_lable->at(i)->hide();
         //gridLayout->removeWidget(list_lable->at(i));
-        qDebug() << 2;
+        //qDebug() << 2;
     }
     //list->clear();
     list_lable->clear();
@@ -405,12 +433,6 @@ void calendarwidget::set_Voc(QDate begin, QDate end)
     end_voc = end;
 }
 
-void calendarwidget::wheelEvent(QWheelEvent *event)
-{
-    qDebug() << "wheel Event";
-
-    event->ignore();
-}
 
 void calendarwidget::closeEvent(QCloseEvent *event)
 {
@@ -419,6 +441,14 @@ void calendarwidget::closeEvent(QCloseEvent *event)
     clear_widget();
     event->accept();
 }
+
+
+void calendarwidget::setCursorFlag(int value)
+{
+
+    cursorFlag = value;
+}
+
 calendarwidget::~calendarwidget()
 {
     delete list;
@@ -427,3 +457,48 @@ calendarwidget::~calendarwidget()
     delete gridLayout;
 }
 
+
+CursorWidget::CursorWidget(QWidget *parent): QWidget(parent)
+{
+     setWindowTitle("Cursor");
+     gridLayout = new QGridLayout;
+     coursorBox = setCursorDefinition();
+     gridLayout->addWidget(coursorBox, 0, 0);
+     setLayout(gridLayout);
+     resize(300, 100);
+
+     connect(radioN, &QRadioButton::clicked, this,&CursorWidget::changeDef);
+     connect(radioV, &QRadioButton::clicked, this,&CursorWidget::changeDef);
+     connect(radioW, &QRadioButton::clicked, this,&CursorWidget::changeDef);
+}
+
+QGroupBox *CursorWidget::setCursorDefinition()
+{
+    QGroupBox *groupBox = new QGroupBox(tr("Курсор выбирает: "));
+
+    radioN = new QRadioButton(tr("Ничего"));
+    radioV = new QRadioButton(tr("Отпуск"));
+    radioW = new QRadioButton(tr("Первый рабочий день"));
+    radioN->setChecked(true);
+    QVBoxLayout *vbox = new QVBoxLayout;
+    vbox->addWidget(radioN);
+    vbox->addWidget(radioV);
+    vbox->addWidget(radioW);
+    vbox->addStretch(1);
+    groupBox->setLayout(vbox);
+    return groupBox;
+}
+
+void CursorWidget::changeDef(bool)
+{
+    qDebug()<<"changeDef";
+    if(radioN->isChecked())
+        emit Def(0);
+    if(radioV->isChecked())
+        emit Def(1);
+    if(radioW->isChecked())
+        emit Def(2);
+}
+
+CursorWidget::~CursorWidget()
+{}

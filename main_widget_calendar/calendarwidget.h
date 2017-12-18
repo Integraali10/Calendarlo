@@ -10,7 +10,9 @@
 #include <QWheelEvent>
 #include <QMap>
 #include <QDate>
-
+#include <QRadioButton>
+#include <QGroupBox>
+#include <QMouseEvent>
 struct work_shift{
     int work;
     int free;
@@ -18,6 +20,8 @@ struct work_shift{
 
 class calendarwidget : public QWidget
 {
+
+    Q_OBJECT
 public:
     explicit calendarwidget(QWidget *parent = 0);
     ~calendarwidget();
@@ -30,6 +34,7 @@ public:
     void clear_widget();
     void orient_album();
     void orient_port();
+    //void mousePressEvent(QMouseEvent *event);
     void set_Data(QString fio, int current_orient, int day, int month, int year);
     void set_Voc(QDate begin, QDate end);
     void addData();
@@ -38,11 +43,14 @@ public:
     work_shift shift;
     int change, free, work;
     bool flag;
-
-
-
+signals:
+    void workSignal(QDate);
+    void vocSignal(QDate);
+public slots:
+    void changeFormat(QDate value);
+    void setCursorFlag(int value);
 private:
-
+    int cursorFlag;
     QGridLayout *gridLayout;
     QList<QCalendarWidget*> *list;
     QList<QLabel*> *list_lable;
@@ -56,8 +64,27 @@ private:
     QList <QList<int>> holidays;
     QDate begin_voc;
     QDate end_voc;
-    void wheelEvent(QWheelEvent *event);
     void closeEvent(QCloseEvent *event);
 };
 
+class CursorWidget: public QWidget
+{
+     Q_OBJECT
+public:
+    explicit CursorWidget(QWidget *parent = 0);
+    ~CursorWidget();
+public slots:
+    void changeDef(bool);
+signals:
+    void Def(int);
+private:
+    QGridLayout *gridLayout;
+    QGroupBox *coursorBox;
+    QGroupBox *setCursorDefinition();
+    QRadioButton *radioN;
+    QRadioButton *radioV;
+    QRadioButton *radioW;
+};
 #endif // CALENDARWIDGET_H
+
+

@@ -32,10 +32,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(about,SIGNAL(clicked(bool)),this,SLOT(on_about()));
     connect(monthComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeMonth()));
     connect(yearComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeYear()));
-    connect(from,SIGNAL(dateChanged(QDate)),this,SLOT(changeVocation()));
+    connect(from,SIGNAL(dateChanged(QDate)),this,SLOT(changeFromVocation()));
+    connect(to,SIGNAL(dateChanged(QDate)),this,SLOT(changeToVocation()));
     connect(graphicComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeGraphic()));
     connect(orientComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeOrientation()));
     connect(changeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeChange()));
+    connect(cursor, SIGNAL(Def(int)), calendar, SLOT(setCursorFlag(int)));
+    connect(calendar,&calendarwidget::workSignal,this,&MainWindow::workSlot);
+    connect(calendar,&calendarwidget::vocSignal,this,&MainWindow::vocSlot);
 }
 
 void MainWindow::createWindow()
@@ -146,6 +150,11 @@ void MainWindow::createWindow()
     set_layout->addLayout(orient_layout);
 
     vocationGroupBox = new QGroupBox(tr("Отпуск"));
+    voc_quantity = new QLabel("30");
+    voc_quantity->setFixedSize(52,26);
+    voc_quantity->setStyleSheet("background-color: #E9EDED;");
+    //voc_quantity->setValidator( new QIntValidator(0, VOCATION_DAYS, this) );
+
     from_label = new QLabel("c");
     from_label->setFixedSize(26,26);
     to_label = new QLabel("до");
@@ -163,6 +172,7 @@ void MainWindow::createWindow()
     vocation_layout->addWidget(from);
     vocation_layout->addWidget(to_label);
     vocation_layout->addWidget(to);
+    vocation_layout->addWidget(voc_quantity);
     vocationGroupBox->setLayout(vocation_layout);
 
     QHBoxLayout *view_layout = new QHBoxLayout();
@@ -275,6 +285,7 @@ void MainWindow::addData()
 
     calendar =  new calendarwidget();
     calendar->set_Voc(from->date(), to->date());
+    cursor = new CursorWidget();
     //calendar->addData();
     //calendar->drowCalendar(choosen_year, choosen_month);
 }
@@ -403,12 +414,26 @@ void MainWindow::changeChange()
     }
 }
 
-void MainWindow::changeVocation()
+void MainWindow::changeFromVocation()
 {
+    calendar->clear_widget();
     calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
+    qDebug()<<from->date();
     to->setDate(countVocation());
     to->setEnabled(true);
     calendar->set_Voc(from->date(), to->date());
+    voc_quantity->setText(QString::number(from->date().daysTo(to->date())));
+}
+
+void MainWindow::changeToVocation()
+{
+    if(from->date().daysTo(to->date())>VOCATION_DAYS || from->date().daysTo(to->date())<0)
+    {
+        changeFromVocation();
+    }
+    calendar->set_Voc(from->date(), to->date());
+    calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
+    voc_quantity->setText(QString::number(from->date().daysTo(to->date())));
 }
 
 void MainWindow::open_Data()
@@ -505,8 +530,12 @@ void MainWindow::show_Calendar()
     calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
     calendar->set_Voc(from->date(), to->date());
     calendar->drowCalendar(choosen_year, choosen_month);
+    calendar->move(0,0);
+    this->move(calendar->size().width(),0);
+    cursor->move(calendar->size().width(),this->size().height());
     calendar->show();
     calendar->update();
+    cursor->show();
 }
 
 void MainWindow::on_about()
@@ -528,6 +557,7 @@ void MainWindow::changeDay()
     choosen_day = dayComboBox->currentIndex()+1;
     calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
     calendar->set_Voc(from->date(), to->date());
+    calendar->drowCalendar(choosen_year, choosen_month);
 }
 
 void MainWindow::changeMonth()
@@ -576,6 +606,7 @@ void MainWindow::changeMonth()
     }
     calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
     calendar->set_Voc(from->date(), to->date());
+    calendar->drowCalendar(choosen_year, choosen_month);
 }
 
 void MainWindow::changeYear()
@@ -608,8 +639,20 @@ void MainWindow::changeYear()
     }
     calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
     calendar->set_Voc(from->date(), to->date());
+    calendar->drowCalendar(choosen_year, choosen_month);
 }
-
+void MainWindow::workSlot(QDate value)
+{
+    qDebug()<<value.year();
+    dayComboBox->setCurrentIndex(value.day()-1);
+    monthComboBox->setCurrentIndex(value.month()-1);
+    yearComboBox->setCurrentIndex(value.year()-choosen_year);
+}
+void MainWindow::vocSlot(QDate value)
+{
+    from->setDate(value);
+    calendar->drowCalendar(choosen_year, choosen_month);
+}
 MainWindow::~MainWindow()
 {
     delete open;
