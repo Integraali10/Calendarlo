@@ -241,7 +241,10 @@ void calendarwidget::chooseDate(work_shift shift, QCalendarWidget *calendar)
             flag = true;
         }
     }
-
+    for (int i = 1; i < days + 1;i++)
+    {
+        calendar->setDateTextFormat({year,month,i},format2);
+    }
     for (int i = day_st; i < days + 1;)
     {
         calendar->setDateTextFormat({year,month,i},format2);
@@ -498,6 +501,12 @@ void CursorWidget::changeDef(bool)
         emit Def(1);
     if(radioW->isChecked())
         emit Def(2);
+}
+void CursorWidget::closeEvent(QCloseEvent *event)
+{
+    qDebug() << "close Event Curr";
+    emit Def(0);
+    event->accept();
 }
 
 CursorWidget::~CursorWidget()

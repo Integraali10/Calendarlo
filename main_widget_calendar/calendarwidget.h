@@ -84,6 +84,7 @@ private:
     QRadioButton *radioN;
     QRadioButton *radioV;
     QRadioButton *radioW;
+    void closeEvent(QCloseEvent *event);
 };
 #endif // CALENDARWIDGET_H
 
