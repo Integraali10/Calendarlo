@@ -10,7 +10,7 @@ ECHO %vers% >>version.txt
 qmake -o Makefile main_widget_calendar.pro
 copy version.txt debug/version.txt
 echo program build 	press "Enter" for create exe file.
-MinGW32-make release
+MinGW32-make
 echo exe file create on path /debug.
 cd C:\Users\Savva\Documents\GitProjects\Calendarlo\main_widget_calendar
 compil32 /cc script1.iss
