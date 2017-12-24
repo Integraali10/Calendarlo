@@ -300,6 +300,7 @@ void calendarwidget::paint_calendar()
     {
         QCalendarWidget *calendar = new QCalendarWidget;
         calendar->setSelectionMode(QCalendarWidget::SingleSelection);
+        calendar->setGridVisible(true);
         calendar->setNavigationBarVisible(false);
         calendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
         connect(calendar,&QCalendarWidget::clicked,this,&calendarwidget::changeFormat);
