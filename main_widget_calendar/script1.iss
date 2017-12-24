@@ -30,7 +30,6 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "release\main_widget_calendar.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-;Source: "dll\MSVCP140.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5PrintSupport.dll"; DestDir: "{app}"; Flags: ignoreversion
