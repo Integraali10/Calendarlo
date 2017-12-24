@@ -34,7 +34,6 @@ public:
     void clear_widget();
     void orient_album();
     void orient_port();
-    //void mousePressEvent(QMouseEvent *event);
     void set_Data(QString fio, int current_orient, int day, int month, int year);
     void set_Voc(QDate begin, QDate end);
     void addData();

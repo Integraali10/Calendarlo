@@ -39,6 +39,7 @@ private slots:
 
 
 private:
+    void closeEvent(QCloseEvent *event);
     void createWindow();
     void addData();
     QDate countVocation();

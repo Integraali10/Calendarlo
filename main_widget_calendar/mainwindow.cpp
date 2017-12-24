@@ -638,6 +638,15 @@ void MainWindow::vocSlot(QDate value)
     from->setDate(value);
     calendar->drowCalendar(choosen_year, choosen_month);
 }
+
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    calendar->close();
+    cursor->close();
+    event->accept();
+}
+
 MainWindow::~MainWindow()
 {
     delete open;
