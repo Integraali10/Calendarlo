@@ -7,8 +7,8 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{2E7063E6-EC95-482E-A4BF-3B3A2668D4A0}
 AppName=Calendarlo
-AppVersion=1.86
-;AppVerName=Calendarlo 1.86
+AppVersion=1.88
+;AppVerName=Calendarlo 1.88
 AppPublisher=ITMO Students & Co.
 AppPublisherURL=https://github.com/Integraali10
 AppSupportURL=http://www.example.com/
@@ -40,6 +40,9 @@ Source: "dll\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\platforms\*"; DestDir: "{app}/platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release\imageformats\*"; DestDir: "{app}/imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\printsupport\*"; DestDir: "{app}/platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\translations\*"; DestDir: "{app}/imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\iconengines\*"; DestDir: "{app}/imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
