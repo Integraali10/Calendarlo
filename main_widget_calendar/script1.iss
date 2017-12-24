@@ -40,9 +40,9 @@ Source: "dll\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\platforms\*"; DestDir: "{app}/platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release\imageformats\*"; DestDir: "{app}/imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "release\printsupport\*"; DestDir: "{app}/platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "release\translations\*"; DestDir: "{app}/imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "release\iconengines\*"; DestDir: "{app}/imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\printsupport\*"; DestDir: "{app}/printsupport"; Flags: recursesubdirs createallsubdirs
+Source: "release\translations\*"; DestDir: "{app}/translations"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\iconengines\*"; DestDir: "{app}/iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
