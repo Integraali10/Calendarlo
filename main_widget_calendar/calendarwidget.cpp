@@ -97,6 +97,7 @@ void calendarwidget::drowCalendar(int year, int month)
             }
             list->at(m)->setCurrentPage(y, m + 1);
             chooseDate(shift, list->at(m));
+
             tmp_month++;
             tmp++;
         }
@@ -151,9 +152,11 @@ void calendarwidget::drowVoc(QDate begin_voc, QDate end_voc)
 void calendarwidget::drowHol()
 {
     qDebug() << "drow Hol";
-    QTextCharFormat format;
+    QTextCharFormat format,formatwh;
     format.setBackground(Qt::white);
     format.setForeground(Qt::red);
+    formatwh.setBackground(QColor(100,200,64,150));
+    formatwh.setForeground(Qt::red);
 
     for (int i =0; i<holidays.size(); i++)
     {
@@ -163,7 +166,10 @@ void calendarwidget::drowHol()
         int month = calendar->monthShown();
         for(int j = 1; j<tmp.size(); j++)
         {
-           calendar->setDateTextFormat({year,month,tmp[j]},format);
+           QTextCharFormat tmpFormat =calendar->dateTextFormat({year,month,tmp[j]});
+           if (tmpFormat.background().color() != QColor(255, 255, 255, 255))
+               calendar->setDateTextFormat({year,month,tmp[j]},formatwh);
+           else calendar->setDateTextFormat({year,month,tmp[j]},format);
         }
     }
 
@@ -212,13 +218,15 @@ void calendarwidget::chooseDate(work_shift shift, QCalendarWidget *calendar)
     int days;
     QTextCharFormat format;
     QTextCharFormat format2;
+    QTextCharFormat formatwh;
     calendar->setCurrentPage(year, month);
     calendar->setMinimumDate(QDate(year,month,1));
     days = retDaysInMonth(month, year);
     calendar->setMaximumDate(QDate(year,month,days));
     format.setBackground(QColor(70,113,213,170));
     format2.setBackground(Qt::white);
-
+    formatwh.setBackground(QColor(100,200,64,150));
+    formatwh.setForeground(Qt::red);
     int day_st = 1;
     if(month == start_month)
     {
@@ -254,7 +262,11 @@ void calendarwidget::chooseDate(work_shift shift, QCalendarWidget *calendar)
             }
             else
             {
-                calendar->setDateTextFormat({year,month,i},format);
+                if (QDate(year,month,i).dayOfWeek()==6||QDate(year,month,i).dayOfWeek()==7)
+                {
+                    calendar->setDateTextFormat({year,month,i},formatwh);
+                }
+                else calendar->setDateTextFormat({year,month,i},format);
                 work++;
                 i++;
                 if (work==shift.work)
