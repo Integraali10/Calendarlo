@@ -50,6 +50,7 @@ public slots:
     void setCursorFlag(int value);
 private:
     int cursorFlag;
+    int indexMonth;
     QGridLayout *gridLayout;
     QList<QCalendarWidget*> *list;
     QList<QLabel*> *list_lable;

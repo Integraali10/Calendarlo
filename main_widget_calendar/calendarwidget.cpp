@@ -9,12 +9,8 @@ calendarwidget::calendarwidget(QWidget *parent) : QWidget(parent)
     //qDebug() << "constructor";
     setWindowTitle("Work Timetable");
     cursorFlag=0;
-
+    indexMonth=0;
     addData();
-    //for(int i =0;i<list->size();i++)
-    //{
-   //     connect(list->at(i),&QCalendarWidget::clicked,this,&calendarwidget::changeFormat);
-    //}
 }
 
 void calendarwidget::addData()
@@ -71,9 +67,9 @@ void calendarwidget::addData()
 
 void calendarwidget::changeFormat(QDate value)
 {
+
     if(cursorFlag==2)
     {
-        qDebug()<<"g1";
         emit workSignal(value);
         return;
     }
@@ -125,7 +121,6 @@ void calendarwidget::drowVoc(QDate begin_voc, QDate end_voc)
     {
         for (int i = begin_voc.day(); i < days + 1; i++)
         {
-            //qDebug() << i;
             QTextCharFormat tmpFormat =calendar->dateTextFormat({year,month,i});
             format.setForeground(tmpFormat.foreground());
             calendar->setDateTextFormat({year,month,i},format);
@@ -217,8 +212,10 @@ void calendarwidget::chooseDate(work_shift shift, QCalendarWidget *calendar)
     int days;
     QTextCharFormat format;
     QTextCharFormat format2;
-
+    calendar->setCurrentPage(year, month);
+    calendar->setMinimumDate(QDate(year,month,1));
     days = retDaysInMonth(month, year);
+    calendar->setMaximumDate(QDate(year,month,days));
     format.setBackground(QColor(70,113,213,170));
     format2.setBackground(Qt::white);
 
@@ -319,14 +316,10 @@ void calendarwidget::clear_widget()
     qDebug() << "clear_widget";
     for(int i = 0; i < list->size(); i++){
         gridLayout->removeWidget(list->at(i));
-        //qDebug() << 1;
     }
     for(int i = 0; i < list_lable->size(); i++){
         list_lable->at(i)->hide();
-        //gridLayout->removeWidget(list_lable->at(i));
-        //qDebug() << 2;
     }
-    //list->clear();
     list_lable->clear();
 }
 
@@ -448,7 +441,6 @@ void calendarwidget::closeEvent(QCloseEvent *event)
 
 void calendarwidget::setCursorFlag(int value)
 {
-
     cursorFlag = value;
 }
 

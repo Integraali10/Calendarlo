@@ -412,9 +412,14 @@ void MainWindow::changeFromVocation()
 
 void MainWindow::changeToVocation()
 {
-    if(from->date().daysTo(to->date())>VOCATION_DAYS || from->date().daysTo(to->date())<0)
+    if(from->date().daysTo(to->date())>VOCATION_DAYS)
     {
         changeFromVocation();
+    }
+    if (from->date().daysTo(to->date())<0)
+    {
+        to->setDate(from->date());
+
     }
     calendar->set_Voc(from->date(), to->date());
     calendar->set_Data(fioLineEdit->text(), choosen_day, choosen_month, choosen_year, orientComboBox->currentIndex());
