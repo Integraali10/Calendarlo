@@ -6,9 +6,9 @@
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{2E7063E6-EC95-482E-A4BF-3B3A2668D4A0}
-AppName=?alendarlo
-AppVersion=1.5
-;AppVerName=calendar 1.5
+AppName=Calendarlo
+AppVersion=1.88
+;AppVerName=Calendarlo 1.88
 AppPublisher=ITMO Students & Co.
 AppPublisherURL=https://github.com/Integraali10
 AppSupportURL=http://www.example.com/
@@ -42,8 +42,8 @@ Source: "release\imageformats\*"; DestDir: "{app}/imageformats"; Flags: ignoreve
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{commonprograms}\calendar"; Filename: "{app}\main_widget_calendar.exe"
-Name: "{commondesktop}\calendar"; Filename: "{app}\main_widget_calendar.exe"; Tasks: desktopicon
+Name: "{commonprograms}\Calendarlo"; Filename: "{app}\main_widget_calendar.exe"
+Name: "{commondesktop}\Calendarlo"; Filename: "{app}\main_widget_calendar.exe"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\main_widget_calendar.exe"; Description: "{cm:LaunchProgram,calendar}"; Flags: nowait postinstall skipifsilent
