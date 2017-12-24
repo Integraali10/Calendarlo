@@ -6,17 +6,17 @@
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{2E7063E6-EC95-482E-A4BF-3B3A2668D4A0}
-AppName=calendar
+AppName=?alendarlo
 AppVersion=1.5
 ;AppVerName=calendar 1.5
-AppPublisher=My Company, Inc.
-AppPublisherURL=http://www.example.com/
+AppPublisher=ITMO Students & Co.
+AppPublisherURL=https://github.com/Integraali10
 AppSupportURL=http://www.example.com/
-AppUpdatesURL=http://www.example.com/
-DefaultDirName={pf}\calendar
+AppUpdatesURL=https://github.com/Integraali10/Calendarlo
+DefaultDirName={pf}\Calendarlo
 DisableProgramGroupPage=yes
 OutputDir=.
-OutputBaseFilename=setup2
+OutputBaseFilename=setupinstall
 Compression=lzma
 SolidCompression=yes
 
@@ -30,16 +30,16 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "release\main_widget_calendar.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "dll\MSVCP140.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "dll\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "dll\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "dll\Qt5PrintSupport.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "dll\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "dll\MSVCP140.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5PrintSupport.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "dll\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "dll\platforms\*"; DestDir: "{app}/platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "dll\imageformats\*"; DestDir: "{app}/imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\platforms\*"; DestDir: "{app}/platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "release\imageformats\*"; DestDir: "{app}/imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
