@@ -39,6 +39,8 @@ Source: "dll\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libicuin58.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libicuio58.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libicuuc58.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libgcc_s_seh-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\platforms\*"; DestDir: "{app}/platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release\imageformats\*"; DestDir: "{app}/imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
