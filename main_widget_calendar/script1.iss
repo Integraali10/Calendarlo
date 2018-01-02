@@ -40,7 +40,7 @@ Source: "dll\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libicuin58.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libicuio58.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libicuuc58.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "dll\libicutd58.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libicudt58.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libgcc_s_seh-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libglib-2.0-0.dll"; DestDir: "{app}"; Flags: ignoreversion
