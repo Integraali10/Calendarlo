@@ -52,6 +52,7 @@ Source: "dll\libintl-8.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libiconv-2.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libgraphite2.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libpcre-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libffi-6.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\platforms\*"; DestDir: "{app}/platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release\imageformats\*"; DestDir: "{app}/imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
