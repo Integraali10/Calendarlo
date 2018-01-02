@@ -30,18 +30,28 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "release\main_widget_calendar.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\version.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "dll\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5PrintSupport.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libicuin58.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libicuio58.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libicuuc58.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libicutd58.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "dll\libgcc_s_seh-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libglib-2.0-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libpng16-16.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libharfbuzz-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libfreetype-6.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libbz2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libintl-8.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libiconv-2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libgraphite2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dll\libpcre-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\platforms\*"; DestDir: "{app}/platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "release\imageformats\*"; DestDir: "{app}/imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
